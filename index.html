@@ -24,6 +24,7 @@
 
       onBeforeFetchRequest(event) {
         event.preventDefault()
+        console.log("ok");
         const resume = event.detail.resume
 
         this.constructor.queue.add(() => {
