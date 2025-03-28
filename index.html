@@ -11,7 +11,7 @@
     const app = Application.start()
 
     app.register("lazy-frame", class extends Controller {
-      static queue = new PQueue({
+      static queue = new pQueue({
         concurrency: 1,
         interval: 10000,
         intervalCap: 1,
