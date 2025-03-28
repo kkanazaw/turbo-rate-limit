@@ -11,9 +11,9 @@
 
     app.register("lazy-frame", class extends Stimulus.Controller {
       static queue = new PQueue({
-        concurrency: 2,
-        interval: 50,
-        intervalCap: 2,
+        concurrency: 1,
+        interval: 10000,
+        intervalCap: 1,
         carryoverConcurrencyCount: true
       })
 
