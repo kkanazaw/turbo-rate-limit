@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Turbo Frame from src on GitHub Pages</title>
+  <script type="module">
+    import { Application } from "https://cdn.skypack.dev/@hotwired/stimulus"
+    import PQueue from "https://cdn.skypack.dev/p-queue"
+
+    const app = Application.start()
+
+    app.register("lazy-frame", class extends Stimulus.Controller {
+      static queue = new PQueue({
+        concurrency: 2,
+        interval: 50,
+        intervalCap: 2,
+        carryoverConcurrencyCount: true
+      })
+
+      connect() {
+        this.resolve = null
+      }
+
+      onBeforeFetchRequest(event) {
+        event.preventDefault()
+        const resume = event.detail.resume
+
+        this.constructor.queue.add(() => {
+          console.log(`[${this.element.id}] added to queue`)
+          return new Promise((resolve) => {
+            this.resolve = resolve
+            resume()
+          })
+        })
+      }
+
+      onFrameLoad(event) {
+        if (event.target !== this.element) return
+        this._safeResolve("loaded")
+      }
+
+      onFrameRender(event) {
+        if (event.target !== this.element) return
+        if (event.detail.error) {
+          this._safeResolve("error")
+        }
+      }
+
+      _safeResolve(status) {
+        if (this.resolve) {
+          console.log(`[${this.element.id}] frame ${status}`)
+          this.resolve()
+          this.resolve = null
+        }
+      }
+    })
+  </script>
+
+  <script type="module" src="https://cdn.skypack.dev/@hotwired/turbo"></script>
+</head>
+
+<body>
+  <h1>Turbo + Stimulus + p-queue (GitHub Pages)</h1>
+
+  <turbo-frame
+    id="frame_1"
+    src="./frames/frame1.html"
+    data-controller="lazy-frame"
+    data-action="
+      turbo:before-fetch-request->lazy-frame#onBeforeFetchRequest
+      turbo:frame-load->lazy-frame#onFrameLoad
+      turbo:frame-render->lazy-frame#onFrameRender"
+  >
+    <p>Loading frame 1...</p>
+  </turbo-frame>
+
+  <turbo-frame
+    id="frame_2"
+    src="./frames/frame2.html"
+    data-controller="lazy-frame"
+    data-action="
+      turbo:before-fetch-request->lazy-frame#onBeforeFetchRequest
+      turbo:frame-load->lazy-frame#onFrameLoad
+      turbo:frame-render->lazy-frame#onFrameRender"
+  >
+    <p>Loading frame 2...</p>
+  </turbo-frame>
+</body>
+</html>
