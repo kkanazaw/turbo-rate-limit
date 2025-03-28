@@ -6,11 +6,11 @@
   <script type="module">
     import hotwiredTurbo from 'https://cdn.jsdelivr.net/npm/@hotwired/turbo@8.0.13/+esm';
 　　import {Controller, Application} from "https://cdn.skypack.dev/stimulus@2.0.0";
-    import pQueue from 'https://cdn.jsdelivr.net/npm/p-queue@8.1.0/+esm';
+    import {PQueue} from 'https://cdn.skypack.dev/p-queue@8.1.0';
 
     const app = Application.start()
 
-    app.register("lazy-frame", class extends Stimulus.Controller {
+    app.register("lazy-frame", class extends Controller {
       static queue = new PQueue({
         concurrency: 1,
         interval: 10000,
