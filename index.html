@@ -20,7 +20,10 @@
       })
 
       connect() {
-        this.resolve = null
+        this.resolve = null;
+        if (this.element.hasAttribute('disabled')) {
+          this.element.removeAttribute('disabled');
+        }
       }
       // layzy loadでないと動かない。 https://github.com/hotwired/turbo/issues/784
       onBeforeFetchRequest(event) {
@@ -64,8 +67,7 @@
   <h1>Turbo × Stimulus × p-queue デモ</h1>
 
   <turbo-frame
-    id="frame_1"
-    loading="lazy" 
+    id="frame_1" 
     src="./frames/frame1.html"
     data-controller="lazy-frame"
     data-action="
@@ -79,49 +81,49 @@
 
   <turbo-frame
     id="frame_2"
-    loading="lazy" 
     src="./frames/frame2.html"
     data-controller="lazy-frame"
     data-action="
       turbo:before-fetch-request->lazy-frame#onBeforeFetchRequest
       turbo:frame-load->lazy-frame#onFrameLoad
       turbo:frame-render->lazy-frame#onFrameRender"
+    disabled
   >
     <p>Loading frame 2...</p>
   </turbo-frame>
   <turbo-frame
     id="frame_3"
-    loading="lazy" 
     src="./frames/frame3.html"
     data-controller="lazy-frame"
     data-action="
       turbo:before-fetch-request->lazy-frame#onBeforeFetchRequest
       turbo:frame-load->lazy-frame#onFrameLoad
       turbo:frame-render->lazy-frame#onFrameRender"
+    disabled
   >
     <p>Loading frame 3...</p>
   </turbo-frame>
   <turbo-frame
     id="frame_4"
-    loading="lazy" 
     src="./frames/frame4.html"
     data-controller="lazy-frame"
     data-action="
       turbo:before-fetch-request->lazy-frame#onBeforeFetchRequest
       turbo:frame-load->lazy-frame#onFrameLoad
       turbo:frame-render->lazy-frame#onFrameRender"
+    disabled
   >
     <p>Loading frame 4...</p>
   </turbo-frame>
   <turbo-frame
     id="frame_5"
-    loading="lazy" 
     src="./frames/frame5.html"
     data-controller="lazy-frame"
     data-action="
       turbo:before-fetch-request->lazy-frame#onBeforeFetchRequest
       turbo:frame-load->lazy-frame#onFrameLoad
       turbo:frame-render->lazy-frame#onFrameRender"
+    disabled
   >
     <p>Loading frame 5...</p>
   </turbo-frame>
