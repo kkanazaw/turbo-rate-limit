@@ -87,5 +87,42 @@
   >
     <p>Loading frame 2...</p>
   </turbo-frame>
+  <turbo-frame
+    id="frame_3"
+    loading="lazy" 
+    src="./frames/frame3.html"
+    data-controller="lazy-frame"
+    data-action="
+      turbo:before-fetch-request->lazy-frame#onBeforeFetchRequest
+      turbo:frame-load->lazy-frame#onFrameLoad
+      turbo:frame-render->lazy-frame#onFrameRender"
+  >
+    <p>Loading frame 3...</p>
+  </turbo-frame>
+  <turbo-frame
+    id="frame_4"
+    loading="lazy" 
+    src="./frames/frame4.html"
+    data-controller="lazy-frame"
+    data-action="
+      turbo:before-fetch-request->lazy-frame#onBeforeFetchRequest
+      turbo:frame-load->lazy-frame#onFrameLoad
+      turbo:frame-render->lazy-frame#onFrameRender"
+  >
+    <p>Loading frame 4...</p>
+  </turbo-frame>
+  <turbo-frame
+    id="frame_5"
+    loading="lazy" 
+    src="./frames/frame5.html"
+    data-controller="lazy-frame"
+    data-action="
+      turbo:before-fetch-request->lazy-frame#onBeforeFetchRequest
+      turbo:frame-load->lazy-frame#onFrameLoad
+      turbo:frame-render->lazy-frame#onFrameRender"
+  >
+    <p>Loading frame 5...</p>
+  </turbo-frame>
+
 </body>
 </html>
