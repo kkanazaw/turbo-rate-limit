@@ -11,7 +11,7 @@
 
     const app = Application.start()
 
-    app.register("lazy-frame", class extends Controller {
+    app.register("rate-limit-frame", class extends Controller {
       static queue = new pQueue({
         concurrency: 2,
         interval: 10000,
@@ -20,44 +20,9 @@
       })
 
       connect() {
-        this.resolve = null;
-        if (this.element.hasAttribute('disabled')) {
-          this.element.removeAttribute('disabled');
-        }
-      }
-      // layzy loadでないと動かない。 https://github.com/hotwired/turbo/issues/784
-      onBeforeFetchRequest(event) {
-        event.preventDefault()
-        console.log("ok");
-        const resume = event.detail.resume
-
-        this.constructor.queue.add(() => {
-          console.log(`[${this.element.id}] added to queue`)
-          return new Promise((resolve) => {
-            this.resolve = resolve
-            resume()
-          })
-        })
-      }
-
-      onFrameLoad(event) {
-        if (event.target !== this.element) return
-        this._safeResolve("loaded")
-      }
-
-      onFrameRender(event) {
-        if (event.target !== this.element) return
-        if (event.detail.error) {
-          this._safeResolve("error")
-        }
-      }
-
-      _safeResolve(status) {
-        if (this.resolve) {
-          console.log(`[${this.element.id}] frame ${status}`)
-          this.resolve()
-          this.resolve = null
-        }
+        this.constructor.queue.add(async () => {
+          this.element.removeAttribute('disabled')
+        });
       }
     })
   </script>
@@ -69,11 +34,7 @@
   <turbo-frame
     id="frame_1" 
     src="./frames/frame1.html"
-    data-controller="lazy-frame"
-    data-action="
-      turbo:before-fetch-request->lazy-frame#onBeforeFetchRequest
-      turbo:frame-load->lazy-frame#onFrameLoad
-      turbo:frame-render->lazy-frame#onFrameRender"
+    data-controller="rate-limit-frame"
     disabled
   >
     <p>Loading frame 1...</p>
@@ -82,11 +43,7 @@
   <turbo-frame
     id="frame_2"
     src="./frames/frame2.html"
-    data-controller="lazy-frame"
-    data-action="
-      turbo:before-fetch-request->lazy-frame#onBeforeFetchRequest
-      turbo:frame-load->lazy-frame#onFrameLoad
-      turbo:frame-render->lazy-frame#onFrameRender"
+    data-controller="rate-limit-frame"
     disabled
   >
     <p>Loading frame 2...</p>
@@ -94,11 +51,7 @@
   <turbo-frame
     id="frame_3"
     src="./frames/frame3.html"
-    data-controller="lazy-frame"
-    data-action="
-      turbo:before-fetch-request->lazy-frame#onBeforeFetchRequest
-      turbo:frame-load->lazy-frame#onFrameLoad
-      turbo:frame-render->lazy-frame#onFrameRender"
+    data-controller="rate-limit-frame"
     disabled
   >
     <p>Loading frame 3...</p>
@@ -106,11 +59,7 @@
   <turbo-frame
     id="frame_4"
     src="./frames/frame4.html"
-    data-controller="lazy-frame"
-    data-action="
-      turbo:before-fetch-request->lazy-frame#onBeforeFetchRequest
-      turbo:frame-load->lazy-frame#onFrameLoad
-      turbo:frame-render->lazy-frame#onFrameRender"
+    data-controller="rate-limit-frame"
     disabled
   >
     <p>Loading frame 4...</p>
@@ -118,11 +67,7 @@
   <turbo-frame
     id="frame_5"
     src="./frames/frame5.html"
-    data-controller="lazy-frame"
-    data-action="
-      turbo:before-fetch-request->lazy-frame#onBeforeFetchRequest
-      turbo:frame-load->lazy-frame#onFrameLoad
-      turbo:frame-render->lazy-frame#onFrameRender"
+    data-controller="rate-limit-frame"
     disabled
   >
     <p>Loading frame 5...</p>
