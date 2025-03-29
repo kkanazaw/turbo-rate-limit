@@ -21,7 +21,7 @@
       connect() {
         this.resolve = null
       }
-
+      // layzy loadでないと動かない。 https://github.com/hotwired/turbo/issues/784
       onBeforeFetchRequest(event) {
         event.preventDefault()
         console.log("ok");
