@@ -12,9 +12,9 @@
 
     app.register("lazy-frame", class extends Controller {
       static queue = new pQueue({
-        concurrency: 1,
+        concurrency: 2,
         interval: 10000,
-        intervalCap: 1,
+        intervalCap: 2,
         carryoverConcurrencyCount: true
       })
 
