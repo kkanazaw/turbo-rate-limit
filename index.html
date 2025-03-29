@@ -21,8 +21,9 @@
 
       connect() {
         this.constructor.queue.add(async () => {
-          this.element.removeAttribute('disabled')
+          this.element.removeAttribute('disabled');
         });
+        console.log(`[${this.element.id}] added to queue`);
       }
     })
   </script>
